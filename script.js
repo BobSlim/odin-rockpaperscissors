@@ -36,32 +36,29 @@ function handleAnimationEnd(){
     //dostuff
 }
 
+function animateElement(htmlElement, animation = ''){
+    htmlElement.classList.remove(animation);
+    void htmlElement.offsetWidth;
+    htmlElement.classList.add(animation);
+}
+
 function playRound(playerThrow){
     let computerThrow = getComputerChoice()
     let outcome = evaluateThrow(playerThrow, computerThrow)
 
     switchImage(img_playerHand, playerThrow);
     switchImage(img_enemyHand, computerThrow);
-    img_playerHand.classList.remove("playerAnimate");
-    void img_playerHand.offsetWidth
-    img_enemyHand.classList.remove("enemyAnimate");
-    void img_enemyHand.offsetWidth
-
+    
     switch(outcome){
         case "win": 
             winCount++;
             div_playerScore.textContent = winCount;
-            div_playerScore.classList.remove("punch")
-            void div_playerScore.offsetWidth;
-            div_playerScore.classList.add("punch")
+            animateElement(div_playerScore,'punch')
             break;
         case "loss": 
             lossCount++; 
             div_enemyScore.textContent = lossCount;
-
-            div_enemyScore.classList.remove("punch")
-            void div_enemyScore.offsetWidth;
-            div_enemyScore.classList.add("punch")
+            animateElement(div_enemyScore,'punch')
             break;
     };
 
@@ -115,9 +112,10 @@ function translateThrowString(throwString){
 function animate(selectedButton){
     setButtonDisabledState(true);
 
-    img_playerHand.classList.add("playerAnimate");
+    animateElement(img_playerHand, 'playerAnimate')
     img_playerHand.setAttribute("src", "images/rock.png")
-    img_enemyHand.classList.add("enemyAnimate");
+
+    animateElement(img_enemyHand, 'enemyAnimate')
     img_enemyHand.setAttribute("src", "images/rock.png")
 
     setTimeout(playRound, 2000, selectedButton);
